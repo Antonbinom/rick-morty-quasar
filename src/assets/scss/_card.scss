@@ -1,0 +1,86 @@
+.cards {
+	margin-top: 110px;
+	padding: 20px 0;
+}
+.cards__filter {
+	position: sticky;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	top: 110px;
+	padding: 20px 0;
+	background: #ffffff;
+}
+.cards-search {
+	width: 300px;
+	height: auto;
+	margin-right: 20px;
+}
+.cards-select {
+	width: 300px;
+}
+.cards__list {
+	display: flex;
+	justify-content: center;
+	flex-wrap: wrap;
+	gap: 20px;
+}
+.cards__item {
+	display: flex;
+	flex-direction: column;
+	width: 300px;
+	height: auto;
+	padding: 30px 20px;
+	background: tomato;
+	border-radius: 5px;
+}
+
+.cards__item-name {
+	display: inline-block;
+	width: max-content;
+	font-size: 21px;
+	font-weight: 700;
+}
+
+.cards__item-name:hover {
+	text-decoration: underline;
+}
+
+.cards__item-image {
+	margin: 20px 0 10px;
+}
+
+.cards__item-episodes {
+	margin-top: 20px;
+	padding-top: 10px;
+	border-top: 2px solid yellow;
+}
+
+.cards__item-list {
+	margin-top: 10px;
+}
+
+.cards__item-text {
+	display: inline-block;
+	width: 100%;
+}
+
+@media (max-width: 576px) {
+	.cards {
+		margin-top: 70px;
+	}
+	.cards__item {
+		width: 100%;
+	}
+	.cards__filter {
+		flex-wrap: wrap;
+	}
+	.cards-search {
+		width: 100%;
+		margin-right: 0;
+		margin-bottom: 10px;
+	}
+	.cards-select {
+		width: 100%;
+	}
+}
