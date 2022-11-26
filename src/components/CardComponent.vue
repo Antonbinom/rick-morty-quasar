@@ -1,6 +1,18 @@
-<template >
-  <div class="cards__item">
-    <router-link class="cards__item-name" :to="`/character/${character.id}`">{{
+<template>
+  <!-- <q-card class="my-card">
+      <img src="https://cdn.quasar.dev/img/mountains.jpg">
+
+      <q-card-section>
+        <div class="text-h6">Our Changing Planet</div>
+        <div class="text-subtitle2">by John Doe</div>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        {{ lorem }}
+      </q-card-section>
+    </q-card> -->
+  <q-card class="my-card bg-orange-10 q-pa-md">
+    <router-link class="text-h5" :to="`/character/${character.id}`">{{
       character.name
     }}</router-link>
     <img
@@ -24,24 +36,24 @@
         </li>
       </ul>
     </div>
-  </div>
+  </q-card>
 </template>
 
 <script setup>
 import { onMounted, ref } from "vue";
-import { api } from "../boot/axios";
+import { api, URL } from "../boot/axios";
 
 const prop = defineProps(["character"]);
 const episodes = ref(null);
 
 onMounted(() => {
   episodes.value = prop.character.episode
-    .map((item) => item.replace("https://rickandmortyapi.com/api/episode/", ""))
+    .map((item) => item.replace(`${URL}episode/`, ""))
     .slice(0, 5)
     .join();
 
   api
-    .get(`https://rickandmortyapi.com/api/episode/${episodes.value}`)
+    .get(`${URL}episode/${episodes.value}`)
     .then((response) => {
       if (response.data.constructor.name == "Array") {
         episodes.value = response.data;

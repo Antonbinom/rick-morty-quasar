@@ -18,7 +18,7 @@
 </template>
 
 <script setup>
-import { api } from "../boot/axios";
+import { api, URL } from "../boot/axios";
 import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
 
@@ -27,7 +27,7 @@ const character = ref(null);
 
 onMounted(() => {
   api
-    .get(`https://rickandmortyapi.com/api/character/${route.params.id}`)
+    .get(`${URL}character/${route.params.id}`)
     .then((response) => {
       character.value = response.data;
     })

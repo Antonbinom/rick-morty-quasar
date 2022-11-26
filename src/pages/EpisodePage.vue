@@ -1,13 +1,15 @@
 <template>
-  <div class="episode__wrapper" v-if="episode">
+  <div class="episode__wrapper" v-if="store.episode">
     <div class="episode__card">
-      <h1 class="episode-title">{{ episode.name }}</h1>
-      <span class="episode-date">Release date: {{ episode.air_date }}</span>
+      <h1 class="episode-title">{{ store.episode.name }}</h1>
+      <span class="episode-date"
+        >Release date: {{ store.episode.air_date }}</span
+      >
       <div class="episode__characters">
         <ul class="episode__list">
           <li
             class="episode__item"
-            v-for="character in characters"
+            v-for="character in store.episodeCharacters"
             :key="character.id"
           >
             <router-link
@@ -25,31 +27,15 @@
 </template>
 
 <script setup>
-import { api } from "../boot/axios";
-import { ref, onMounted } from "vue";
 import { useRoute } from "vue-router";
+import { onBeforeMount } from "vue";
+import { useEpisodeStore } from "../stores/episode";
+import useGetCharacters from "../hooks/useGetCharacters";
 
+const store = useEpisodeStore();
 const route = useRoute();
-const episode = ref(null);
-const characters = ref("");
 
-onMounted(() => {
-  api
-    .get(`https://rickandmortyapi.com/api/episode/${route.params.id}`)
-    .then((response) => {
-      episode.value = response.data;
-      let charactersId = episode.value.characters
-        .map((item) =>
-          item.replace("https://rickandmortyapi.com/api/character/", "")
-        )
-        .join();
+const getEpisode = useGetCharacters(route.params.id);
 
-      api
-        .get(`https://rickandmortyapi.com/api/character/${charactersId}`)
-        .then((response) => {
-          characters.value = response.data;
-        });
-    })
-    .catch((error) => console.log(error.message));
-});
+onBeforeMount(() => getEpisode);
 </script>

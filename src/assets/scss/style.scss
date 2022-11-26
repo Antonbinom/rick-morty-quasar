@@ -1,25 +1,11 @@
 @import url("../../../node_modules/normalize.css/normalize.css");
 
-@font-face {
-	font-family: "Open Sans";
-	font-weight: 400;
-	src: url("../fonts/open-sans-v29-latin_cyrillic-regular.woff") format("woff"),
-		url("../fonts/open-sans-v29-latin_cyrillic-regular.woff2") format("woff2");
-}
-
-@font-face {
-	font-family: "Open Sans";
-	font-weight: 700;
-	src: url("../fonts/open-sans-v29-latin_cyrillic-700.woff") format("woff"),
-		url("../fonts/open-sans-v29-latin_cyrillic-700.woff2") format("woff2");
-}
-
 html {
-	box-sizing: border-box;
+  box-sizing: border-box;
 }
 
 * {
-	box-sizing: inherit;
+  box-sizing: inherit;
 }
 
 h1,
@@ -27,56 +13,56 @@ h2,
 h3,
 h4,
 h5 {
-	margin: 0;
+  margin: 0;
 }
 
 body {
-	font-family: "Open Sans", sans-serif;
-	font-style: normal;
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 150%;
-	color: #f7fb00;
+  font-family: "Open Sans", sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 150%;
+  color: #f7fb00;
 }
 
 button {
-	cursor: pointer;
+  cursor: pointer;
 }
 
 a {
-	text-decoration: none;
-	color: inherit;
+  text-decoration: none;
+  color: inherit;
 }
 
 img,
 svg {
-	max-width: 100%;
-	height: auto;
+  max-width: 100%;
+  height: auto;
 }
 
 ul {
-	padding: 0;
-	list-style-type: none;
+  padding: 0;
+  list-style-type: none;
 }
 
 p {
-	margin: 0;
+  margin: 0;
 }
 
 .container {
-	max-width: 1300px;
-	margin: 0 auto;
-	padding: 0 20px;
+  max-width: 1300px;
+  margin: 0 auto;
+  padding: 0 20px;
 }
 .empty {
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	transform: translate(-50%);
-	font-size: 54px;
-	font-weight: 700;
-	color: gray;
-	text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%);
+  font-size: 54px;
+  font-weight: 700;
+  color: gray;
+  text-align: center;
 }
 
 @import "header";
