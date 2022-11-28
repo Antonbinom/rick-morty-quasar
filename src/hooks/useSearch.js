@@ -4,7 +4,7 @@ import {api, URL} from 'src/boot/axios';
 const store = useCharactersStore();
 const useSearch = () => {
   api
-    .get(`${URL}character/?name=${store.name}&status=${store.status}`)
+    .get(`${URL}character/?name=${store.name}&status=${store.status.value}`)
     .then((response) => {
       store.setCharacters(response.data.results);
       store.setNextPage(response.data.info.next);

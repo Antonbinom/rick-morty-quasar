@@ -1,36 +1,26 @@
 <template>
-  <div class="character__wrapper" v-if="character">
-    <div class="character__card">
-      <h1 class="character-name">{{ character.name }}</h1>
-      <img
-        class="character-image"
-        :src="character.image"
-        :alt="character.name"
-      />
-      <div class="character__info">
-        <span class="character-text">Species: {{ character.species }}</span>
-        <span class="character-text"
-          >Location: {{ character.location.name }}</span
-        >
-      </div>
+  <main class="absolute-center q-pa-lg bg-orange" v-if="store.singleCharacter">
+    <h4 class="text-weight-bold q-mt-sm q-mb-lg">
+      {{ store.singleCharacter.name }}
+    </h4>
+    <img :src="store.singleCharacter.image" :alt="store.singleCharacter.name" />
+    <div class="q-mt-md text-subtitle2 text-weight-medium">
+      <div>Species: {{ store.singleCharacter.species }}</div>
+      <div>Location: {{ store.singleCharacter.location.name }}</div>
     </div>
-  </div>
+  </main>
 </template>
 
 <script setup>
 import { api, URL } from "../boot/axios";
-import { ref, onMounted } from "vue";
+import { onBeforeMount } from "vue";
 import { useRoute } from "vue-router";
+import { useCharactersStore } from "src/stores/characters";
+import useSingleCharacter from "src/hooks/useSingleCharacter";
 
+const store = useCharactersStore();
 const route = useRoute();
-const character = ref(null);
+const getCharacter = useSingleCharacter(route.params.id);
 
-onMounted(() => {
-  api
-    .get(`${URL}character/${route.params.id}`)
-    .then((response) => {
-      character.value = response.data;
-    })
-    .catch((error) => console.log(error.message));
-});
+onBeforeMount(() => getCharacter);
 </script>

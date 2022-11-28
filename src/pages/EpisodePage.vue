@@ -1,29 +1,27 @@
 <template>
-  <div class="episode__wrapper" v-if="store.episode">
-    <div class="episode__card">
-      <h1 class="episode-title">{{ store.episode.name }}</h1>
-      <span class="episode-date"
-        >Release date: {{ store.episode.air_date }}</span
-      >
-      <div class="episode__characters">
-        <ul class="episode__list">
-          <li
-            class="episode__item"
-            v-for="character in store.episodeCharacters"
-            :key="character.id"
-          >
-            <router-link
-              class="episode__item-link"
-              :to="`/character/${character.id}`"
-            >
-              <img class="episode__item-image" :src="character.image" />
-              <div class="episode__item-name">{{ character.name }}</div>
-            </router-link>
-          </li>
-        </ul>
+  <main class="absolute-center q-pa-xl bg-orange" v-if="store.episode">
+    <div class="flex justify-between items-center q-mb-lg">
+      <h1 class="text-h3">{{ store.episode.name }}</h1>
+      <div class="text-h5">
+        Release date: <b>{{ store.episode.air_date }}</b>
       </div>
     </div>
-  </div>
+    <q-list class="row flex-wrap justify-center">
+      <q-item
+        class="episode__item col-12 col-sm-5 col-md-4 col-lg-2"
+        v-for="character in store.episodeCharacters"
+        :key="character.id"
+      >
+        <router-link
+          class="episode__item-link"
+          :to="`/character/${character.id}`"
+        >
+          <img class="episode__item-image" :src="character.image" />
+          <div class="episode__item-name">{{ character.name }}</div>
+        </router-link>
+      </q-item>
+    </q-list>
+  </main>
 </template>
 
 <script setup>
@@ -34,8 +32,13 @@ import useGetCharacters from "../hooks/useGetCharacters";
 
 const store = useEpisodeStore();
 const route = useRoute();
-
 const getEpisode = useGetCharacters(route.params.id);
 
 onBeforeMount(() => getEpisode);
 </script>
+
+<style scoped lang="scss">
+main {
+  margin-top: 70px;
+}
+</style>

@@ -1,8 +1,8 @@
 <template>
-  <main class="cards">
+  <main>
     <q-infinite-scroll
       @load="useGetCards"
-      class="cards__list"
+      class="row justify-center"
       v-if="store.loading"
     >
       <CardComponent
@@ -16,11 +16,29 @@
 </template>
 
 <script setup>
+import { onBeforeMount, onUnmounted } from "vue-demi";
+import { useRoute } from "vue-router";
 import CardComponent from "../components/CardComponent.vue";
 import useGetCards from "../hooks/useGetCards";
-import useSearch from "../hooks/useSearch";
-import useGetCharacters from "../hooks/useGetCharacters";
 import { useCharactersStore } from "../stores/characters";
+import { useRouteStore } from "../stores/route";
 
 const store = useCharactersStore();
+const routeStore = useRouteStore();
+
+onBeforeMount(() => {
+  const route = useRoute();
+  routeStore.setRouteName(route.name);
+});
+
+onUnmounted(() => {
+  const route = useRoute();
+  routeStore.setRouteName(route.name);
+});
 </script>
+
+<style scoped lang="scss">
+main {
+  margin-top: 170px;
+}
+</style>

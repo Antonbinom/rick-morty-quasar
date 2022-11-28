@@ -27,7 +27,7 @@ const useGetCards = (index, done) => {
       return;
     } else {
       getCharacters(
-        `${store.nextPage}&name=${store.name}&status=${store.status}`
+        `${store.nextPage}&name=${store.name}&status=${store.status.value}`
       );
     }
   }

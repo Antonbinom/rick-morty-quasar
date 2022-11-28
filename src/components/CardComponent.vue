@@ -1,40 +1,36 @@
 <template>
-  <!-- <q-card class="my-card">
-      <img src="https://cdn.quasar.dev/img/mountains.jpg">
-
-      <q-card-section>
-        <div class="text-h6">Our Changing Planet</div>
-        <div class="text-subtitle2">by John Doe</div>
-      </q-card-section>
-
-      <q-card-section class="q-pt-none">
-        {{ lorem }}
-      </q-card-section>
-    </q-card> -->
-  <q-card class="my-card bg-orange-10 q-pa-md">
-    <router-link class="text-h5" :to="`/character/${character.id}`">{{
-      character.name
-    }}</router-link>
-    <img
-      class="cards__item-image"
-      :src="character.image"
-      :alt="character.name"
-    />
-    <div class="cards__item-info">
-      <span class="cards__item-text">Species: {{ character.species }}</span>
-      <span class="cards__item-text"
-        >Location: {{ character.location.name }}</span
-      >
+  <q-card
+    class="col-10 col-sm-5 col-md-3 col-lg-3 q-pa-lg q-mx-sm q-mb-md bg-orange"
+  >
+    <router-link
+      class="inline-block text-h4 text-weight-bold q-mb-lg"
+      :to="`/character/${character.id}`"
+      >{{ character.name }}</router-link
+    >
+    <img :src="character.image" :alt="character.name" />
+    <div class="q-mt-md">
+      <div class="block text-subtitle1 text-weight-medium">
+        Species: {{ character.species }}
+      </div>
+      <div class="block text-subtitle1 text-weight-medium">
+        Location: {{ character.location.name }}
+      </div>
     </div>
-    <div class="cards__item-episodes">
-      <h3>Episodes</h3>
-      <ul class="cards__item-list" v-if="episodes">
-        <li v-for="episode in episodes" :key="episode.air_date">
+    <div class="q-card-section">
+      <hr />
+      <h5 class="q-my-md text-weight-bold">Episodes</h5>
+      <q-list class="text-subtitle2 text-weight-medium" v-if="episodes">
+        <q-item
+          dense
+          class="no-padding"
+          v-for="episode in episodes"
+          :key="episode.air_date"
+        >
           <router-link :to="`/episode/${episode.id}`">
             Ep. {{ episode.id }} - {{ episode.name }}
           </router-link>
-        </li>
-      </ul>
+        </q-item>
+      </q-list>
     </div>
   </q-card>
 </template>

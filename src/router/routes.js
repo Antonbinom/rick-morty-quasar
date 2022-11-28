@@ -1,10 +1,10 @@
 const routes = [
-  { path: "/", component: () => import("pages/HomePage.vue") },
+  {path: "/", name: 'home', component: () => import("pages/HomePage.vue")},
   {
-    path: "/character/:id",
+    path: "/character/:id", name: 'character',
     component: () => import("pages/CharacterPage.vue"),
   },
-  { path: "/episode/:id", component: () => import("pages/EpisodePage.vue") },
+  {path: "/episode/:id", name: 'episode', component: () => import("pages/EpisodePage.vue")},
 ];
 
 export default routes;

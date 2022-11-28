@@ -3,11 +3,12 @@ import {defineStore} from "pinia";
 export const useCharactersStore = defineStore("characters", {
   state: () => ({
     characters: [],
+    singleCharacter: '',
     currentPage: '',
     nextPage: '',
     pages: '',
     name: '',
-    status: '',
+    status: {label: '', value: ''},
     loading: true,
   }),
   getters: {
@@ -16,6 +17,9 @@ export const useCharactersStore = defineStore("characters", {
   actions: {
     setCharacters(data) {
       this.characters = data;
+    },
+    setSingleCharacter(data) {
+      this.singleCharacter = data;
     },
     setNextPage(value) {
       this.nextPage = value;
