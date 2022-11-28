@@ -1,43 +1,25 @@
-# Quasar App (rickmorty)
+# rickmorty quasar
 
-A Quasar Project
+## Oписание
 
-## Install the dependencies
+Тестовое задание на должность Vue Frontend разработчик
 
-```bash
-yarn
-# or
-npm install
-```
+## Функционал
+- Загрузка с сервера и рендеринг карточек с персонажами
+- Переход по страницам без перезагрузки
+- Страница персонажа
+- Страница эпизода
+- Бесконечный скролл
+- Фильтрация персонажей по имени и статусу
 
-### Start the app in development mode (hot-code reloading, error reporting, etc.)
+## Стек технологий
+- Quasar UI Kit
+- Vue3
+- Composition API
+- Vue-router
+- Pinia(state management)
+- Axios - Rest API
+- SCSS
+## Запуск quasar dev
 
-```bash
-quasar dev
-```
-
-### Lint the files
-
-```bash
-yarn lint
-# or
-npm run lint
-```
-
-### Format the files
-
-```bash
-yarn format
-# or
-npm run format
-```
-
-### Build the app for production
-
-```bash
-quasar build
-```
-
-### Customize the configuration
-
-See [Configuring quasar.config.js](https://v2.quasar.dev/quasar-cli-vite/quasar-config-js).
+## <a href="https://rick-morty-quasar.vercel.app/">Ссылка</a>
