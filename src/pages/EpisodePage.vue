@@ -25,16 +25,13 @@
 </template>
 
 <script setup>
-import { useRoute } from "vue-router";
 import { onBeforeMount } from "vue";
-import { useEpisodeStore } from "../stores/episode";
-import useGetCharacters from "../hooks/useGetCharacters";
+import { useEpisodeStore } from "src/stores/episode";
 
 const store = useEpisodeStore();
-const route = useRoute();
-const getEpisode = useGetCharacters(route.params.id);
+const useSetCharacters = store.setCharacters();
 
-onBeforeMount(() => getEpisode);
+onBeforeMount(() => useSetCharacters);
 </script>
 
 <style scoped lang="scss">

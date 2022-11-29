@@ -1,44 +1,103 @@
 import {defineStore} from "pinia";
+import {ref, computed} from "vue";
+import {api, URL} from 'src/boot/axios';
+import {useRoute} from "vue-router";
 
-export const useCharactersStore = defineStore("characters", {
-  state: () => ({
-    characters: [],
-    singleCharacter: '',
-    currentPage: '',
-    nextPage: '',
-    pages: '',
-    name: '',
-    status: {label: '', value: ''},
-    loading: true,
-  }),
-  getters: {
-    getCharacters: (state) => state.characters,
-  },
-  actions: {
-    setCharacters(data) {
-      this.characters = data;
-    },
-    setSingleCharacter(data) {
-      this.singleCharacter = data;
-    },
-    setNextPage(value) {
-      this.nextPage = value;
-    },
-    setCurrentPage(value) {
-      this.currentPage = value;
-    },
-    setPages(value) {
-      this.pages = value;
-    },
-    setName(value) {
-      this.name = value;
-    },
-    setStatus(value) {
-      this.status = value;
-    },
-    setLoading(value) {
-      this.loading = value;
-    },
-  },
-  // persist: true
+export const useCharactersStore = defineStore("characters", () => {
+
+  // states
+  const characters = ref([]);
+  const singleCharacter = ref('');
+  const currentPage = ref('');
+  const nextPage = ref('');
+  const pages = ref('');
+  const name = ref('');
+  const status = ref({label: '', value: ''});
+  const loading = ref(true);
+
+  // getters
+  const getCharacters = computed(() => characters.value)
+
+  // actions
+  const getCards = async (index, done) => {
+    const getCharacters = async function (url) {
+      const {data} = await api.get(url);
+      characters.value = [...characters.value, ...data.results];
+      pages.value = data.info.pages;
+      currentPage.value = +url.replace(/[^\d]/g, "");
+      if (data.info.next !== null) {
+        nextPage.value = data.info.next;
+      }
+    };
+
+    if (!characters.value.length) {
+      const {data, request} = await api.get(`${URL}character`)
+      characters.value = data.results;
+      nextPage.value = data.info.next;
+      currentPage.value = request.responseURL;
+    } else {
+      if (currentPage.value === pages.value) {
+        return;
+      } else {
+        getCharacters(
+          `${nextPage.value}&name=${name.value}&status=${status.value.value}`
+        );
+      }
+    }
+    done();
+  };
+
+  const useSearch = async function () {
+    try {
+      const {data} = await api
+        .get(`${URL}character/?name=${name.value}&status=${status.value.value}`)
+      characters.value = data.results
+      nextPage.value = data.info.next
+      pages.value = data.info.pages
+      if (data.info.next !== null) {
+        currentPage.value = +data.info.next.replace(/[^\d]/g, "") - 1
+      }
+      loading.value = true
+    } catch (error) {
+      loading.value = false
+      throw new Error(error.message)
+    }
+  };
+
+  const setSingleCharacter = async function () {
+    const {params} = useRoute();
+    const {data} = await api.get(`${URL}character/${params.id}`)
+    singleCharacter.value = data;
+  }
+
+  const setEpisodes = async function (numbers) {
+    const episodesString = numbers
+      .map((item) => item.replace(`${URL}episode/`, ""))
+      .slice(0, 5)
+      .join();
+
+    const {data} = await api.get(`${URL}episode/${episodesString}`)
+    if (data.constructor.name == "Array") return data;
+    else return [data];
+  }
+
+  const setName = (value) => name.value = value;
+  const setStatus = (value) => status.value = value;
+
+  return {
+    characters,
+    singleCharacter,
+    currentPage,
+    nextPage,
+    pages,
+    name,
+    status,
+    loading,
+    setName,
+    setStatus,
+    setEpisodes,
+    setSingleCharacter,
+    useSearch,
+    getCards,
+  }
 });

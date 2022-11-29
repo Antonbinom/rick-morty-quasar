@@ -31,11 +31,10 @@
 <script setup>
 import { useCharactersStore } from "src/stores/characters";
 import { useRouteStore } from "src/stores/route";
-import { api, URL } from "src/boot/axios";
-import { useRoute } from "vue-router";
 
 const store = useCharactersStore();
 const routeStore = useRouteStore();
+const useSearch = store.useSearch;
 
 const options = [
   { label: "Dead", value: "dead" },
@@ -44,28 +43,11 @@ const options = [
   { label: "All", value: "" },
 ];
 
-const useSearch = () => {
-  api
-    .get(`${URL}character/?name=${store.name}&status=${store.status.value}`)
-    .then((response) => {
-      store.setCharacters(response.data.results);
-      store.setNextPage(response.data.info.next);
-      store.setPages(response.data.info.pages);
-      if (response.data.info.next !== null) {
-        store.setCurrentPage(
-          +response.data.info.next.replace(/[^\d]/g, "") - 1
-        );
-      }
-      store.setLoading(true);
-    })
-    .catch((error) => {
-      console.log(error.message);
-      store.setLoading(false);
-    });
-};
 const resetSearch = () => {
-  if (routeStore.name === "home")
-    (store.name = ""), store.setStatus({ label: "", value: "" });
+  if (routeStore.name === "home") {
+    store.setName("");
+    store.setStatus({ label: "", value: "" });
+  }
   useSearch();
 };
 </script>

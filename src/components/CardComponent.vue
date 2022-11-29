@@ -36,25 +36,16 @@
 </template>
 
 <script setup>
-import { onMounted, ref } from "vue";
-import { api, URL } from "../boot/axios";
+import { onBeforeMount, ref } from "vue";
+import { useCharactersStore } from "src/stores/characters";
 
+const store = useCharactersStore();
 const prop = defineProps(["character"]);
-const episodes = ref(null);
+const episodes = ref("");
 
-onMounted(() => {
-  episodes.value = prop.character.episode
-    .map((item) => item.replace(`${URL}episode/`, ""))
-    .slice(0, 5)
-    .join();
-
-  api
-    .get(`${URL}episode/${episodes.value}`)
-    .then((response) => {
-      if (response.data.constructor.name == "Array") {
-        episodes.value = response.data;
-      } else episodes.value = [response.data];
-    })
-    .catch((error) => console.log(error.message));
-});
+onBeforeMount(() =>
+  store
+    .setEpisodes(prop.character.episode)
+    .then((data) => (episodes.value = data))
+);
 </script>

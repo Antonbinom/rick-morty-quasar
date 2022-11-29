@@ -12,15 +12,11 @@
 </template>
 
 <script setup>
-import { api, URL } from "../boot/axios";
 import { onBeforeMount } from "vue";
-import { useRoute } from "vue-router";
 import { useCharactersStore } from "src/stores/characters";
-import useSingleCharacter from "src/hooks/useSingleCharacter";
 
 const store = useCharactersStore();
-const route = useRoute();
-const getCharacter = useSingleCharacter(route.params.id);
+const setCharacter = store.setSingleCharacter();
 
-onBeforeMount(() => getCharacter);
+onBeforeMount(() => setCharacter);
 </script>
