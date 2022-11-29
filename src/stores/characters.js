@@ -19,8 +19,9 @@ export const useCharactersStore = defineStore("characters", () => {
   const getCharacters = computed(() => characters.value)
 
   // actions
-  const getCards = async (index, done) => {
-    const getCharacters = async function (url) {
+
+  const fetchCharacters = async function (url) {
+    try {
       const {data} = await api.get(url);
       characters.value = [...characters.value, ...data.results];
       pages.value = data.info.pages;
@@ -28,21 +29,29 @@ export const useCharactersStore = defineStore("characters", () => {
       if (data.info.next !== null) {
         nextPage.value = data.info.next;
       }
-    };
+    } catch (error) {
+      throw new Error(error.message)
+    }
+  };
 
-    if (!characters.value.length) {
-      const {data, request} = await api.get(`${URL}character`)
-      characters.value = data.results;
-      nextPage.value = data.info.next;
-      currentPage.value = request.responseURL;
-    } else {
-      if (currentPage.value === pages.value) {
-        return;
+  const getCards = async (index, done) => {
+    try {
+      if (!characters.value.length) {
+        const {data, request} = await api.get(`${URL}character`)
+        characters.value = data.results;
+        nextPage.value = data.info.next;
+        currentPage.value = request.responseURL;
       } else {
-        getCharacters(
-          `${nextPage.value}&name=${name.value}&status=${status.value.value}`
-        );
+        if (currentPage.value === pages.value) {
+          return;
+        } else {
+          fetchCharacters(
+            `${nextPage.value}&name=${name.value}&status=${status.value.value}`
+          );
+        }
       }
+    } catch (error) {
+      throw new Error(error.message)
     }
     done();
   };
@@ -65,20 +74,29 @@ export const useCharactersStore = defineStore("characters", () => {
   };
 
   const setSingleCharacter = async function () {
-    const {params} = useRoute();
-    const {data} = await api.get(`${URL}character/${params.id}`)
-    singleCharacter.value = data;
+    try {
+      const {params} = useRoute();
+      const {data} = await api.get(`${URL}character/${params.id}`)
+      singleCharacter.value = data;
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
 
   const setEpisodes = async function (numbers) {
-    const episodesString = numbers
-      .map((item) => item.replace(`${URL}episode/`, ""))
-      .slice(0, 5)
-      .join();
+    try {
+      const episodesString = numbers
+        .map((item) => item.replace(`${URL}episode/`, ""))
+        .slice(0, 5)
+        .join();
 
-    const {data} = await api.get(`${URL}episode/${episodesString}`)
-    if (data.constructor.name == "Array") return data;
-    else return [data];
+      const {data} = await api.get(`${URL}episode/${episodesString}`)
+      if (data.constructor.name == "Array") return data;
+      else return [data];
+
+    } catch (error) {
+      throw new Error(error.message)
+    }
   }
 
   const setName = (value) => name.value = value;

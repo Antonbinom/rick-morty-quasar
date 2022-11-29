@@ -18,6 +18,7 @@
 - Composition API
 - Vue-router
 - Pinia(state management)
+- Vite(Сборщик проекта)
 - Axios - Rest API
 - SCSS
 ## Запуск quasar dev

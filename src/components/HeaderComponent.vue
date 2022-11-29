@@ -11,6 +11,7 @@
         <q-input
           v-model="store.name"
           @update:model-value="useSearch"
+          debounce="500"
           class="col-8 col-sm-5 q-mr-sm-lg q-mb-md q-mb-sm-none"
           placeholder="Введите имя"
           filled

@@ -8,14 +8,18 @@ export const useEpisodeStore = defineStore("episode", () => {
   const episodeCharacters = ref('');
 
   const setCharacters = async function () {
-    const {params} = useRoute();
-    const {data} = await api.get(`${URL}episode/${params.id}`);
-    episode.value = data;
-    let charactersId = await episode.value.characters
-      .map((item) => item.replace(`${URL}character/`, ""))
-      .join();
-    const characters = await api.get(`${URL}character/${charactersId}`);
-    episodeCharacters.value = characters.data;
+    try {
+      const {params} = useRoute();
+      const {data} = await api.get(`${URL}episode/${params.id}`);
+      episode.value = data;
+      let charactersId = await episode.value.characters
+        .map((item) => item.replace(`${URL}character/`, ""))
+        .join();
+      const characters = await api.get(`${URL}character/${charactersId}`);
+      episodeCharacters.value = characters.data;
+    } catch (error) {
+      throw new Error(error.message)
+    }
   };
 
   return {
