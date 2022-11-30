@@ -1,5 +1,5 @@
 <template>
-  <main class="absolute-center q-pa-xl bg-orange" v-if="store.episode">
+  <main class="q-pa-xl bg-orange" v-if="store.episode">
     <div class="flex justify-between items-center q-mb-lg">
       <h1 class="text-h3">{{ store.episode.name }}</h1>
       <div class="text-h5">
@@ -34,9 +34,3 @@ const { params } = useRoute();
 
 onBeforeMount(() => store.setEpisode(params.id));
 </script>
-
-<style scoped lang="scss">
-main {
-  margin-top: 70px;
-}
-</style>
