@@ -1,7 +1,7 @@
 import {defineStore} from "pinia";
-import {ref, computed} from "vue";
+import {ref} from "vue";
 import {api, URL} from 'src/boot/axios';
-import {useRoute} from "vue-router";
+
 
 export const useCharactersStore = defineStore("characters", () => {
 
@@ -15,12 +15,9 @@ export const useCharactersStore = defineStore("characters", () => {
   const status = ref({label: '', value: ''});
   const loading = ref(true);
 
-  // getters
-  const getCharacters = computed(() => characters.value)
-
   // actions
 
-  const fetchCharacters = async function (url) {
+  const fetchCharacters = async (url) => {
     try {
       const {data} = await api.get(url);
       characters.value = [...characters.value, ...data.results];
@@ -34,7 +31,7 @@ export const useCharactersStore = defineStore("characters", () => {
     }
   };
 
-  const getCards = async (index, done) => {
+  const fetchCardsOnScroll = async (index, done) => {
     try {
       if (!characters.value.length) {
         const {data, request} = await api.get(`${URL}character`)
@@ -56,7 +53,7 @@ export const useCharactersStore = defineStore("characters", () => {
     done();
   };
 
-  const useSearch = async function () {
+  const fetchFilteredCards = async () => {
     try {
       const {data} = await api
         .get(`${URL}character/?name=${name.value}&status=${status.value.value}`)
@@ -73,27 +70,10 @@ export const useCharactersStore = defineStore("characters", () => {
     }
   };
 
-  const setSingleCharacter = async function () {
+  const setSingleCharacter = async (id) => {
     try {
-      const {params} = useRoute();
-      const {data} = await api.get(`${URL}character/${params.id}`)
+      const {data} = await api.get(`${URL}character/${id}`)
       singleCharacter.value = data;
-    } catch (error) {
-      throw new Error(error.message)
-    }
-  }
-
-  const setEpisodes = async function (numbers) {
-    try {
-      const episodesString = numbers
-        .map((item) => item.replace(`${URL}episode/`, ""))
-        .slice(0, 5)
-        .join();
-
-      const {data} = await api.get(`${URL}episode/${episodesString}`)
-      if (data.constructor.name == "Array") return data;
-      else return [data];
-
     } catch (error) {
       throw new Error(error.message)
     }
@@ -113,9 +93,8 @@ export const useCharactersStore = defineStore("characters", () => {
     loading,
     setName,
     setStatus,
-    setEpisodes,
     setSingleCharacter,
-    useSearch,
-    getCards,
+    fetchFilteredCards,
+    fetchCardsOnScroll,
   }
 });

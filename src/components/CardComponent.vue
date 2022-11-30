@@ -7,17 +7,17 @@
       :to="`/character/${character.id}`"
       >{{ character.name }}</router-link
     >
-    <img :src="character.image" :alt="character.name" />
-    <div class="q-mt-md">
-      <div class="block text-subtitle1 text-weight-medium">
+    <q-img :src="character.image" :alt="character.name" />
+    <div class="column q-mt-md">
+      <span class="text-subtitle1 text-weight-medium">
         Species: {{ character.species }}
-      </div>
-      <div class="block text-subtitle1 text-weight-medium">
+      </span>
+      <span class="text-subtitle1 text-weight-medium">
         Location: {{ character.location.name }}
-      </div>
+      </span>
     </div>
-    <div class="q-card-section">
-      <hr />
+    <q-card-section class="q-card-section">
+      <q-separator />
       <h5 class="q-my-md text-weight-bold">Episodes</h5>
       <q-list class="text-subtitle2 text-weight-medium" v-if="episodes">
         <q-item
@@ -31,21 +31,18 @@
           </router-link>
         </q-item>
       </q-list>
-    </div>
+    </q-card-section>
   </q-card>
 </template>
 
 <script setup>
 import { onBeforeMount, ref } from "vue";
-import { useCharactersStore } from "src/stores/characters";
+import { useGetEpisodes } from "src/hooks/useGetEpisodes";
 
-const store = useCharactersStore();
 const prop = defineProps(["character"]);
 const episodes = ref("");
 
 onBeforeMount(() =>
-  store
-    .setEpisodes(prop.character.episode)
-    .then((data) => (episodes.value = data))
+  useGetEpisodes(prop.character.episode).then((data) => (episodes.value = data))
 );
 </script>

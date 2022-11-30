@@ -16,7 +16,7 @@
           class="episode__item-link"
           :to="`/character/${character.id}`"
         >
-          <img class="episode__item-image" :src="character.image" />
+          <q-img class="episode__item-image" :src="character.image" />
           <div class="episode__item-name">{{ character.name }}</div>
         </router-link>
       </q-item>
@@ -27,11 +27,12 @@
 <script setup>
 import { onBeforeMount } from "vue";
 import { useEpisodeStore } from "src/stores/episode";
+import { useRoute } from "vue-router";
 
 const store = useEpisodeStore();
-const useSetCharacters = store.setCharacters();
+const { params } = useRoute();
 
-onBeforeMount(() => useSetCharacters);
+onBeforeMount(() => store.setEpisode(params.id));
 </script>
 
 <style scoped lang="scss">

@@ -1,8 +1,8 @@
 <template>
-  <header class="bg-cyan">
+  <q-header class="bg-cyan">
     <div class="row q-px-xl q-py-lg justify-between items-center">
       <router-link @click="resetSearch" class="col-1 text-red-1" to="/">
-        <img alt="Quasar logo " src="~assets/logo.svg" style="width: 70px" />
+        <q-img alt="Quasar logo " src="~assets/logo.svg" style="width: 70px" />
       </router-link>
       <div
         v-if="routeStore.name === 'home'"
@@ -10,7 +10,7 @@
       >
         <q-input
           v-model="store.name"
-          @update:model-value="useSearch"
+          @update:model-value="onSearch"
           debounce="500"
           class="col-8 col-sm-5 q-mr-sm-lg q-mb-md q-mb-sm-none"
           placeholder="Введите имя"
@@ -18,7 +18,7 @@
         />
         <q-select
           v-model="store.status"
-          @update:model-value="useSearch"
+          @update:model-value="onSearch"
           :options="options"
           class="col-8 col-sm-5"
           filled
@@ -26,7 +26,7 @@
         />
       </div>
     </div>
-  </header>
+  </q-header>
 </template>
 
 <script setup>
@@ -35,7 +35,7 @@ import { useRouteStore } from "src/stores/route";
 
 const store = useCharactersStore();
 const routeStore = useRouteStore();
-const useSearch = store.useSearch;
+const onSearch = store.fetchFilteredCards;
 
 const options = [
   { label: "Dead", value: "dead" },
@@ -49,6 +49,6 @@ const resetSearch = () => {
     store.setName("");
     store.setStatus({ label: "", value: "" });
   }
-  useSearch();
+  onSearch();
 };
 </script>

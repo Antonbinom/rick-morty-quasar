@@ -1,7 +1,7 @@
 <template>
   <main>
     <q-infinite-scroll
-      @load="store.getCards"
+      @load="fetchCards"
       class="row justify-center"
       v-if="store.loading"
     >
@@ -24,6 +24,8 @@ import { useRouteStore } from "src/stores/route";
 
 const store = useCharactersStore();
 const routeStore = useRouteStore();
+
+const fetchCards = store.fetchCardsOnScroll;
 
 onBeforeMount(() => {
   const route = useRoute();

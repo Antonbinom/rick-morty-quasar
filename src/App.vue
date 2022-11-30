@@ -1,6 +1,6 @@
 <template>
   <q-layout>
-    <header-component class="fixed-top" style="z-index: 10" />
+    <header-component />
     <q-page-container>
       <router-view />
     </q-page-container>
